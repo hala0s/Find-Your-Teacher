@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "860561882322",
+    "project_id": "atmetha",
+    "storage_bucket": "atmetha.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:860561882322:android:240002fd378e7384e2c10b",
+        "android_client_info": {
+          "package_name": "com.example.atmtha_mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAT2XBDxALn_452yZpi7ky6YM56HYpC1cA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:860561882322:android:362312520f77c9fce2c10b",
+        "android_client_info": {
+          "package_name": "com.prootech.find_your_teacher"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAT2XBDxALn_452yZpi7ky6YM56HYpC1cA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

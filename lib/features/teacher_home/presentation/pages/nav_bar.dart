@@ -2,11 +2,11 @@ import 'package:find_your_teacher/features/notfications/presentation/pages/teach
 import 'package:find_your_teacher/features/student_home/presentation/pages/teacher_settings.dart';
 import 'package:find_your_teacher/features/teacher_home/presentation/pages/edit_profile/teacher_edit_info.dart';
 import 'package:find_your_teacher/features/teacher_home/presentation/pages/profile.dart';
+import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../../../../core/bloc/app_state_bloc.dart';
 import '../../../../core/theme/colors.dart';
@@ -27,9 +27,9 @@ class NavBarScreen extends StatefulWidget {
   State<NavBarScreen> createState() => _NavBarScreenState();
 }
 
-PersistentTabController _controller = PersistentTabController(initialIndex: 0);
-
 class _NavBarScreenState extends State<NavBarScreen> {
+  int _selectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
@@ -48,36 +48,22 @@ class _NavBarScreenState extends State<NavBarScreen> {
           final img = state.data?.user.profilePhoto.url ??
               "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
 
-          return PersistentTabView(
-            padding: const NavBarPadding.only(top: 20),
-            navBarHeight: 60.h,
-            context,
-            controller: _controller,
-            screens:
-                _buildScreens(name, about, subjects, locations, price, img,locationsId,subjectsId),
-            items: _navBarsItems(),
-            confineInSafeArea: true,
-            backgroundColor: Colors.white,
-            handleAndroidBackButtonPress: true,
-            resizeToAvoidBottomInset: true,
-            stateManagement: true,
-            hideNavigationBarWhenKeyboardShows: true,
-            decoration: NavBarDecoration(
-              borderRadius: BorderRadius.circular(10.0),
-              colorBehindNavBar: Colors.white,
+          final List<Widget> screens = _buildScreens(
+            name, about, subjects, locations, price, img, locationsId, subjectsId,
+          );
+
+          return Scaffold(
+            body: screens[_selectedIndex],
+            bottomNavigationBar: FlashyTabBar(
+              selectedIndex: _selectedIndex,
+              items: _navBarsItems(),
+              backgroundColor: Colors.white,
+              onItemSelected: (index) {
+                setState(() {
+                  _selectedIndex = index;
+                });
+              },
             ),
-            popAllScreensOnTapOfSelectedTab: true,
-            popActionScreens: PopActionScreensType.all,
-            itemAnimationProperties: const ItemAnimationProperties(
-              duration: Duration(milliseconds: 200),
-              curve: Curves.easeOut,
-            ),
-            screenTransitionAnimation: const ScreenTransitionAnimation(
-              animateTabTransition: true,
-              curve: Curves.easeOut,
-              duration: Duration(milliseconds: 200),
-            ),
-            navBarStyle: NavBarStyle.style6,
           );
         },
       ),
@@ -85,8 +71,8 @@ class _NavBarScreenState extends State<NavBarScreen> {
   }
 }
 
-List<Widget> _buildScreens(String name, String about, List<String> subjects,
-    List<String> locations, int price, String img, List<String> locationIds, List<String> subjectsId) {
+List<Widget> _buildScreens(
+    String name, String about, List<String> subjects, List<String> locations, int price, String img, List<String> locationIds, List<String> subjectsId) {
   return [
     TeachersProfile(
       userName: name,
@@ -99,39 +85,41 @@ List<Widget> _buildScreens(String name, String about, List<String> subjects,
     TeacherEditInfo(
       price: price,
       aboutMe: about,
-
-     ),
+    ),
     const TeacherSettingsUi(),
     NotificationScreen(),
   ];
 }
 
-List<PersistentBottomNavBarItem> _navBarsItems() {
+List<FlashyTabBarItem> _navBarsItems() {
   return [
-    PersistentBottomNavBarItem(
-      contentPadding: 5.0,
+    FlashyTabBarItem(
       icon: Center(
         child: PhosphorIcon(
           PhosphorIcons.house(),
         ),
       ),
-      activeColorPrimary: lightColorScheme.primary,
-      inactiveColorPrimary: CupertinoColors.systemGrey,
+      activeColor: lightColorScheme.primary,
+      inactiveColor: CupertinoColors.systemGrey,
+      title: const Text("Home"),
     ),
-    PersistentBottomNavBarItem(
+    FlashyTabBarItem(
       icon: Center(child: PhosphorIcon(PhosphorIcons.user())),
-      activeColorPrimary: lightColorScheme.primary,
-      inactiveColorPrimary: CupertinoColors.systemGrey,
+      activeColor: lightColorScheme.primary,
+      inactiveColor: CupertinoColors.systemGrey,
+      title: const Text("Profile"),
     ),
-    PersistentBottomNavBarItem(
+    FlashyTabBarItem(
       icon: Center(child: PhosphorIcon(PhosphorIcons.gearSix())),
-      activeColorPrimary: lightColorScheme.primary,
-      inactiveColorPrimary: CupertinoColors.systemGrey,
+      activeColor: lightColorScheme.primary,
+      inactiveColor: CupertinoColors.systemGrey,
+      title: const Text("Settings"),
     ),
-    PersistentBottomNavBarItem(
+    FlashyTabBarItem(
       icon: Center(child: PhosphorIcon(PhosphorIcons.bell())),
-      activeColorPrimary: lightColorScheme.primary,
-      inactiveColorPrimary: CupertinoColors.systemGrey,
+      activeColor: lightColorScheme.primary,
+      inactiveColor: CupertinoColors.systemGrey,
+      title: const Text("Notifications"),
     ),
   ];
 }

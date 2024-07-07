@@ -74,6 +74,8 @@ dependencies:
   dartz: ^0.10.1
   flutter_local_notifications: ^17.1.0
   injectable: ^2.4.2
+  flashy_tab_bar2: ^0.0.10
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
